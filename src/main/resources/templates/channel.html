@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <div th:replace="index::links"></div>
+    <meta charset="UTF-8">
+    <title>Create New Channel</title>
+</head>
+<body>
+    <h1>Create New Channel</h1>
+    <p></p>
+    <form th:action="@{/channel}" th:method="post" th:object="${channelCreateDto}">
+        <label th:for="'name'">New Channel Name</label>
+        <br>
+        <input type="text" th:field="*{name}" required>
+        <p></p>
+        <label th:for="'description'">Description</label>
+        <br>
+        <input type="text" th:field="*{description}" required>
+        <p></p>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

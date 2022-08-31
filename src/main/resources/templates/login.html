@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="index::links"></div>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+</head>
+<body>
+    <h1>Login Form</h1>
+    <p th:if="${success}" th:text="${success}">successful registration</p>
+    <p th:unless="${success}"></p>
+    <form th:action="@{/login}" th:method="post">
+        <label for="login">Username</label>
+        <br>
+        <input id="login" name="login" type="text" required>
+        <p></p>
+        <label for="password">Password</label>
+        <br>
+        <input id="password" name="password" type="password" required>
+        <p th:text="${error}">error login</p>
+        <button type="submit" >Login</button>
+    </form>
+    <p></p>
+    <p>Are you new to P2P Chat Project?</p>
+    <p>Go to <a th:href="@{/register}">registration</a> page!</p>
+</body>
+</html>

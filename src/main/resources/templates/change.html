@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <div th:replace="index::links"></div>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Update Your Channel</h1>
+    <p></p>
+    <form th:action="@{/update}" th:method="post" th:object="${channelUpdateDto}">
+        <label th:for="'id'">Channel Id</label>
+        <p th:if="${error}" th:text="${error}"></p>
+        <br>
+        <input type="number" th:field="*{id}" required>
+        <p></p>
+        <label th:for="'name'">New Channel Name</label>
+        <br>
+        <input type="text" th:field="*{name}">
+        <p></p>
+        <label th:for="'description'">New Channel Description</label>
+        <br>
+        <input type="text" th:field="*{description}">
+        <p></p>
+        <label th:for="'iconUrl'">New Channel Icon</label>
+        <br>
+        <input type="text" th:field="*{iconUrl}">
+        <p></p>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

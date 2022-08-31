@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:fragment="links">
+        <link rel="stylesheet" th:href="@{/styles.css}" href="../static/styles.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
+    </div>
+    <meta charset="UTF-8">
+    <title>P2P Chat Project</title>
+</head>
+<body>
+    <nav class="top-nav">
+        <h1>Ada's Chat Client</h1>
+        <a th:href="@{/change}">
+            <img th:src="@{${avatarUrl} ? ${avatarUrl} : '/user-icon-big.jpg'}"
+                 src="../static/user-icon-big.jpg" alt="user icon generated">
+        </a>
+    </nav>
+    <div class="left-nav">
+        <aside>
+            <a th:href="@{/}">
+                <img th:src="@{/channel-icon-tag.jpg}" src="../static/channel-icon-tag.jpg" alt="general channel icon">
+            </a>
+            <br>
+            <div class="channel-scroll">
+                <div th:each="channel :${channels}">
+                    <a th:href="@{/(channelId=${channel.id})}">
+                        <img th:src="@{${channel.iconUrl} and not ${#strings.isEmpty(channel.iconUrl)} ?
+                             ${channel.iconUrl} : '/channel-icon-transport.jpg'}"
+                             src="../static/channel-icon-transport.jpg" alt="private channel icon">
+                    </a>
+                    <br>
+                </div>
+            </div>
+            <a th:href="@{/channel}">
+                <img th:src="@{/channel-icon-plus.jpg}" src="../static/channel-icon-plus.jpg" alt="add channel icon">
+            </a>
+            <br>
+            <a th:href="@{/update}">
+                <img th:src="@{/channel-icon-setting.jpg}" src="../static/channel-icon-setting.jpg" alt="add channel icon">
+            </a>
+        </aside>
+        <main>
+            <div class="messages-block">
+                <section th:if="messages" th:each="message :${messages}">
+                    <img th:src="@{${message.author.avatarUrl} ?: '/user-icon-small.jpg'}"
+                     src="../static/user-icon-small.jpg" class="user">
+                    <div class="message">
+                        <h3 th:text="${message.author.username} + ' - '
+                        + ${#temporals.format(message.created, 'dd-MMM-yyyy HH:mm')}">Username - date</h3>
+                        <p th:text="${message.content}">Lorem ipsum dolor sit amet,
+                            consectetur adipiscing elit. Nunc maximus, nulla ut commodo
+                            sagittis, sapien dui mattis dui, non pulvinar lorem felis nec erat</p>
+                    </div>
+                </section>
+            </div>
+            <form th:action="@{/(channelId=${channelId})}" th:method="post">
+                <input type="text" placeholder="Put your message here!" name="message">
+                <button type="submit" class="right-button">Send</button>
+            </form>
+        </main>
+    </div>
+</body>
+</html>

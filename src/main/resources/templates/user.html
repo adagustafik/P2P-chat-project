@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <div th:replace="index::links"></div>
+    <meta charset="UTF-8">
+    <title>User Menu</title>
+</head>
+<body>
+    <h1>User Menu</h1>
+    <a th:href="@{/logout}">logout</a>
+    <p></p>
+    <form th:action="@{/change}" th:method="post" th:object="${userIdDto}">
+        <label th:for="'username'">Username</label>
+        <br>
+        <input type="text" th:field="*{username}" required>
+        <p></p>
+        <label th:for="'avatarUrl'">Avatar URL</label>
+        <br>
+        <input type="text" th:field="*{avatarUrl}" >
+        <p></p>
+        <button type="submit">Submit</button>
+    </form>
+    <p></p>
+    <a th:href="@{/}">cancel</a>
+</body>
+</html>

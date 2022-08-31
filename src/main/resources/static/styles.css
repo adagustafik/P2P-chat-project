@@ -1,0 +1,111 @@
+* {
+    font-family: 'Architects Daughter', cursive;
+    box-sizing: border-box;
+}
+body {
+    width: 860px;
+    margin: auto;
+}
+
+img {
+    align-self: center;
+}
+
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-nav img {
+    width: 65px;
+    height: 65px;
+    object-fit: cover;
+}
+
+h1 {
+    font-size: 40px;
+    font-weight: normal;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.left-nav {
+    display: flex;
+}
+
+aside img {
+    border: 2px solid;
+    width: 76px;
+    height: 76px;
+    object-fit: cover;
+}
+
+aside a img {
+    border-color: black;
+}
+
+.channel-scroll {
+    height: 410px;
+    overflow-y: scroll;
+}
+
+main {
+    margin-left: 10px;
+}
+
+.messages-block {
+    height: 600px;
+    width: 770px;
+    overflow-y: scroll;
+    border: 2px solid;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+section {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+section img {
+    width: 47px;
+    height: 47px;
+    object-fit: cover;
+}
+
+.message {
+    margin-left: 10px;
+    padding-right: 60px;
+}
+
+h3 {
+    font-weight: normal;
+    margin: 0;
+}
+
+.message p {
+    margin-top: 0;
+    margin-bottom: 5px;
+    line-height: 98%;
+    font-size: 12px;
+}
+
+input {
+    border: 2px solid;
+    height: 40px;
+    width: 625px;
+    font-size: medium;
+}
+
+button {
+    border: 2px solid;
+    background-color: white;
+    height: 40px;
+    width: 130px;
+    font-size: medium;
+}
+
+.right-button {
+    margin-left: 5px;
+}
