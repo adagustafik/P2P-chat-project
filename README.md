@@ -33,24 +33,25 @@ Possible extension on the logic would be to  create repository for user password
 & allow change password feature which broker does not provide.
 
 ### Basic data flows
-* GET templates/login -> POST UserController -> UserService -> BrokerExchange api/user - User(username + password)
-  - -> [on success] UserApiDto received + autContext setup (apiKey, avatarUrl, channels) -> redirect index
-  - -> [on error] catch HttpClientErrorException -> throw LoginUnsuccessfulException -> RestResponseEntityExceptionHandler -> display error on login
+* GET templates/login -> POST UserController -> UserService -> BrokerExchange api/user/login - User(username + password) ->
+  - [on success] UserApiDto received + autContext setup (apiKey, avatarUrl, channels) -> redirect index
+  - [on error] catch HttpClientErrorException -> throw LoginUnsuccessfulException -> RestResponseEntityExceptionHandler -> display error on login
 
-* GET templates/index -> GET MainController -> MessageService -> BrokerExchange api/channel - MessagesGetDto(channelId, channelSecret, count)
-  - -> Message[] (via MessagesGetDto) received & added to the model attributes
+* GET templates/index -> GET MainController -> MessageService -> BrokerExchange api/channel/get-messages - MessagesGetDto(channelId, channelSecret, count) ->
   - handling multiple channels: for general channel -> id & secret are null - on channelId param -> channelSecret is loaded via autContext
+  - Message[] (via MessagesGetDto) received & added to the model attributes
 
-* POST templates/index -> POST MainController -> MessageService -> BrokerExchange api/message - MessagePostDto
-  - -> MessagePostedDto(content, created, UserIdDto author) + parsing ISO DateString to LocalDateTime
+* POST templates/index -> POST MainController -> MessageService -> BrokerExchange api/message - MessagePostDto ->
+  - MessagePostedDto(content, created, UserIdDto author) + parsing ISO DateString to LocalDateTime
 
 
 ## Lessons learned  
-1. Consuming API services
-    - rest template
+1. Consuming API services workflow with Spring RestTemplateBuilder exchange function
+   - automated serialization / deserialization of DATA (DTO objects/ Json String)
+2. Creating Request HttpEntity with custom HttpHeaders incl. API key
+3. Java Generics - BrokerExchange -> automated HTTP response entity generation
 
-2. @JsonProperty("created")
-3. DateTime conversions from/to different time zones
-4. Displaying images for avatars & channel thumbnails
-
-5. Java Generics - BrokerExchange -> automated HTTP request Entity + post method
+4. Utilizing java URI class to create valid endpoint paths
+5. @JsonProperty() -> usage for data parsing
+6. DateTime conversions from/to different time zones (UTC to CEST - local default)
+7. Displaying images for avatars & channel thumbnails
