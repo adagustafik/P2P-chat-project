@@ -6,8 +6,7 @@ Build an instant messaging client consuming provided API broker to retrieve chat
 1. Registration + Login/Logout
 2. View & Update user profile
 3. View & Post messages 
-5. Create new channels
-6. Update my channels
+5. Create + Update new private channels
 
 ## Deployed on heroku
 https://radiant-ocean-51687.herokuapp.com/login
@@ -29,21 +28,29 @@ template engine
 
 
 ## Architecture
-Current solution doesn't persist any data on its own. It fully utilizes the broker storage instead.
+Current solution doesn't persist any data on its own, rather fully utilizes the broker storage instead.
+Possible extension on the logic would be to  create repository for user passwords 
+& allow change password feature which broker does not provide.
 
-### Basic data flow
-GET templates/login -> POST UserController -> UserService -> BrokerExchange - new User(username + password) - json format sent 
--> [on success] UserApiDto received + autContext setup (apiKey, avatarUrl, channels) -> redirect index
--> [on error] catch HttpClientErrorException -> throw LoginUnsuccessfulException -> RestResponseEntityExceptionHandler -> display error on login
+### Basic data flows
+* GET templates/login -> POST UserController -> UserService -> BrokerExchange api/user - User(username + password)
+  - -> [on success] UserApiDto received + autContext setup (apiKey, avatarUrl, channels) -> redirect index
+  - -> [on error] catch HttpClientErrorException -> throw LoginUnsuccessfulException -> RestResponseEntityExceptionHandler -> display error on login
 
-GET templates/index -> GET MainController -> MessageService -> 
+* GET templates/index -> GET MainController -> MessageService -> BrokerExchange api/channel - MessagesGetDto(channelId, channelSecret, count)
+  - -> Message[] (via MessagesGetDto) received & added to the model attributes
+  - handling multiple channels: for general channel -> id & secret are null - on channelId param -> channelSecret is loaded via autContext
+
+* POST templates/index -> POST MainController -> MessageService -> BrokerExchange api/message - MessagePostDto
+  - -> MessagePostedDto(content, created, UserIdDto author) + parsing ISO DateString to LocalDateTime
 
 
 ## Lessons learned  
 1. Consuming API services
     - rest template
 
-2. DateTime conversions from/to different time zones
-3. Displaying images for avatars & channel thumbnails
+2. @JsonProperty("created")
+3. DateTime conversions from/to different time zones
+4. Displaying images for avatars & channel thumbnails
 
-4. Java Generics - BrokerExchange -> create HTTP request Entity + post
+5. Java Generics - BrokerExchange -> automated HTTP request Entity + post method
