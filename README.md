@@ -42,7 +42,7 @@ Possible extension on the logic would be to  create repository for user password
   - Message[] (via MessagesGetDto) received & added to the model attributes - > templates/index generated
 
 * POST root -> POST MainController -> on blank message redirect root -> MessageService -> BrokerExchange api/message - MessagePostDto ->
-  - MessagePostedDto(content, created, UserIdDto author) + parsing ISO DateString to LocalDateTime -> redirect root
+MessagePostedDto(content, created, UserIdDto author) + parsing ISO DateString to LocalDateTime -> redirect root
 
 
 ## Lessons learned  
