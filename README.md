@@ -34,15 +34,15 @@ Possible extension on the logic would be to  create repository for user password
 
 ### Basic data flows
 * GET templates/login -> POST UserController -> UserService -> BrokerExchange api/user/login - User(username + password) ->
-  - [on success] UserApiDto received + autContext setup (apiKey, avatarUrl, channels) -> redirect index
+  - [on success] UserApiDto received + autContext setup (apiKey, avatarUrl, channels) -> redirect root
   - [on error] catch HttpClientErrorException -> throw LoginUnsuccessfulException -> RestResponseEntityExceptionHandler -> display error on login
 
-* GET templates/index -> GET MainController -> MessageService -> BrokerExchange api/channel/get-messages - MessagesGetDto(channelId, channelSecret, count) ->
+* GET root -> GET MainController -> MessageService -> BrokerExchange api/channel/get-messages - MessagesGetDto(channelId, channelSecret, count) ->
   - handling multiple channels: for general channel -> id & secret are null - on channelId param -> channelSecret is loaded via autContext
-  - Message[] (via MessagesGetDto) received & added to the model attributes
+  - Message[] (via MessagesGetDto) received & added to the model attributes - > templates/index generated
 
-* POST templates/index -> POST MainController -> MessageService -> BrokerExchange api/message - MessagePostDto ->
-  - MessagePostedDto(content, created, UserIdDto author) + parsing ISO DateString to LocalDateTime
+* POST root -> POST MainController -> on blank message redirect root -> MessageService -> BrokerExchange api/message - MessagePostDto ->
+  - MessagePostedDto(content, created, UserIdDto author) + parsing ISO DateString to LocalDateTime -> redirect root
 
 
 ## Lessons learned  
